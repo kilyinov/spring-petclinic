@@ -61,13 +61,20 @@ class OwnerController {
 	public Owner findOwner(@PathVariable(name = "ownerId", required = false) Integer ownerId) {
 		return ownerId == null ? new Owner() : this.owners.findById(ownerId);
 	}
-
+	/**
+	 * Handles GET request to /owners/new to initialize a new owner creation form.
+	 * 
+	 * Adds an empty Owner object to the model to populate the form.
+	 * 
+	 * Returns the owner form view name.
+	 */
 	@GetMapping("/owners/new")
 	public String initCreationForm(Map<String, Object> model) {
 		Owner owner = new Owner();
 		model.put("owner", owner);
 		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 	}
+
 
 	@PostMapping("/owners/new")
 	public String processCreationForm(@Valid Owner owner, BindingResult result) {
@@ -117,6 +124,7 @@ class OwnerController {
 		model.addAttribute("totalItems", paginated.getTotalElements());
 		model.addAttribute("listOwners", listOwners);
 		return "owners/ownersList";
+
 	}
 
 	private Page<Owner> findPaginatedForOwnersLastName(int page, String lastname) {
