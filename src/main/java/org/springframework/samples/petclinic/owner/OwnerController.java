@@ -18,6 +18,10 @@ package org.springframework.samples.petclinic.owner;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,11 +46,13 @@ import jakarta.validation.Valid;
  * @author Michael Isvy
  */
 @Controller
-class OwnerController {
+class OwnerController implements ApplicationContextAware {
 
 	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 
 	private final OwnerRepository owners;
+
+	private ApplicationContext context;
 
 	public OwnerController(OwnerRepository clinicService) {
 		this.owners = clinicService;
@@ -61,20 +67,13 @@ class OwnerController {
 	public Owner findOwner(@PathVariable(name = "ownerId", required = false) Integer ownerId) {
 		return ownerId == null ? new Owner() : this.owners.findById(ownerId);
 	}
-	/**
-	 * Handles GET request to /owners/new to initialize a new owner creation form.
-	 * 
-	 * Adds an empty Owner object to the model to populate the form.
-	 * 
-	 * Returns the owner form view name.
-	 */
+
 	@GetMapping("/owners/new")
 	public String initCreationForm(Map<String, Object> model) {
 		Owner owner = new Owner();
 		model.put("owner", owner);
 		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 	}
-
 
 	@PostMapping("/owners/new")
 	public String processCreationForm(@Valid Owner owner, BindingResult result) {
@@ -163,6 +162,17 @@ class OwnerController {
 		Owner owner = this.owners.findById(ownerId);
 		mav.addObject(owner);
 		return mav;
+	}
+
+	@PostMapping("/api/shutdown")
+	public String shutdown() {
+		((ConfigurableApplicationContext) context).close();
+		return "Shutting down";
+	}
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.context = applicationContext;
 	}
 
 }
