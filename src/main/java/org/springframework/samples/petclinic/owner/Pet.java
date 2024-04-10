@@ -55,6 +55,18 @@ public class Pet extends NamedEntity {
 	@Column(name = "color")
 	private String color;
 
+	//String to store picture path
+	@Column(name = "picture_url")
+	private String pictureURL;
+
+	public String getPictureURL() {
+		return pictureURL;
+	}
+
+	public void setPictureURL(String pictureURL) {
+		this.pictureURL = pictureURL;
+	}
+
 	public String getColor() {
 		return color;
 	}
