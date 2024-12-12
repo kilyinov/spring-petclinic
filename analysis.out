@@ -1,0 +1,38 @@
+From analyzing the provided code snippets, there is one potentially concerning logging pattern in the `PostgresIntegrationTests.java` file, specifically in the `PropertiesLogger` class. This class logs all property values from the application's property sources:
+
+```java:/src/test/java/org/springframework/samples/petclinic/PostgresIntegrationTests.java
+        public void printProperties() {
+            for (EnumerablePropertySource<?> source : findPropertiesPropertySources()) {
+                log.info("PropertySource: " + source.getName());
+                String[] names = source.getPropertyNames();
+                Arrays.sort(names);
+                for (String name : names) {
+                    String resolved = environment.getProperty(name);
+                    String value = source.getProperty(name).toString();
+                    if (resolved.equals(value)) {
+                        log.info(name + "=" + resolved);
+                    }
+```
+
+This could be problematic because:
+1. It logs ALL properties, which might include sensitive information like:
+   - Database credentials
+   - API keys
+   - Security settings
+   - Other configuration secrets
+
+The only other explicit logging I can see in the provided code is in `PetController.java` which uses a logger but doesn't appear to log any sensitive information:
+
+```java:/src/main/java/org/springframework/samples/petclinic/owner/PetController.java
+private static Logger logger = LogManager.getLogger(PetController.class);
+```
+
+Recommendation:
+1. The `PropertiesLogger` should be modified to either:
+   - Only log non-sensitive properties
+   - Mask sensitive values
+   - Be removed entirely if it's just for debugging purposes
+   - Be configured to only run in non-production environments
+
+It's worth noting that this appears to be in a test class, which reduces the risk, but it's still a good practice to avoid logging sensitive information even in test environments.
+
