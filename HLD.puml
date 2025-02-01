@@ -1,0 +1,50 @@
+```plantuml
+@startuml
+package org.springframework.samples.petclinic {
+    class PetClinicApplication
+    
+    package model {
+        abstract class BaseEntity
+        abstract class NamedEntity
+    }
+    
+    package owner {
+        class Owner
+        class Pet
+        class PetType
+        class Visit
+        class PetController
+        class VisitController
+        class PetTypeFormatter
+    }
+    
+    package vet {
+        class Vet
+        class Specialty
+        class VetController
+    }
+    
+    package system {
+        class CacheConfiguration
+    }
+}
+
+BaseEntity <|-- NamedEntity
+NamedEntity <|-- PetType
+NamedEntity <|-- Pet
+NamedEntity <|-- Specialty
+BaseEntity <|-- Visit
+
+Pet "*" --o "1" Owner
+Visit "*" --o "1" Pet
+PetType "1" --o "1" Pet
+Specialty "*" --o "*" Vet
+
+PetController ..> Owner
+PetController ..> Pet
+VisitController ..> Visit
+VetController ..> Vet
+
+@enduml
+```
+
