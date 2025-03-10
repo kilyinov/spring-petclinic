@@ -947,7 +947,7 @@ public void testGetPageHierarchyHasRightTags() throws Exception {
 
 ## 7. Design & Best Practices
 
-For some good Object-oriented code design guidelines, see the Gang of Four book or the ObjectMentor website: http://www.objectmentor.com/
+For some good Object-oriented code design guidelines, see the Gang of Four book or the ObjectMentor website: https://www.objectmentor.com/
 
 ### 7.1. Encapsulations
 
@@ -1119,9 +1119,9 @@ What follows is a series of principles and techniques for defending your systems
 
 ## 8. References
 
-* Java Code Conventions [http://www.oracle.com/technetwork/java/codeconventions-150003.pdf]
+* Java Code Conventions [https://www.oracle.com/technetwork/java/codeconventions-150003.pdf]
 * EASS – Java Coding Guidelines
 * Clean Code: A Handbook of Agile Software Craftsmanship [book]
-* Clean Code Cheat Sheet [http://www.planetgeek.ch/wp-content/uploads/2013/06/Clean-Code-V2.2.pdf]
+* Clean Code Cheat Sheet [https://www.planetgeek.ch/wp-content/uploads/2013/06/Clean-Code-V2.2.pdf]
 
 
